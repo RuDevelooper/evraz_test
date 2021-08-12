@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+
+
+    <form class="position-absolute top-50 start-50 translate-middle w-25" method="post" action="/login/">
+
+        <h1>Авторизация</h1>
+
+        <div class="mb-3">
+            <label for="login" class="form-label">Логин</label>
+            <input type="text" class="form-control" name="login">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        {% if message %}
+            <div class="my-3">
+                <small class="text-danger">
+                    {{ message }}
+                </small>
+            </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Вход</button>
+    </form>
+
+{% endblock %}
