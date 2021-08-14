@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Новая задача{% endblock %}
+
+{% block content %}
+
+    <div class="container w-75">
+        <div class="row mb-3">
+            <div class="col-6">
+                <h1>Новая задача</h1>
+            </div>
+        </div>
+        <form action="/new_task/" method="post">
+            <div class="mb-3">
+                <label for="task_description" class="form-label">Описание задачи</label>
+                <textarea class="form-control" id="task_description" name="task_description" rows="8"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-auto">
+                    <button type="reset" class="btn btn-secondary mb-3">Очистить</button>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

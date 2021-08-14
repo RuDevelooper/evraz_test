@@ -11,9 +11,19 @@ from sqlalchemy import (
     ForeignKey
 )
 
+naming_convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(column_0_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+
 engine = create_engine('sqlite:///project.db', echo=True)
 
-metadata = MetaData()
+metadata = MetaData(
+    naming_convention=naming_convention
+)
 
 users = Table(
     'user', metadata,
@@ -45,6 +55,7 @@ tickets_history = Table(
     Column('status', None, ForeignKey('status.id')),
     Column('ticket', None, ForeignKey('ticket.id')),
     Column('updated_at', DateTime, default=datetime.now),
+    Column('updated_by', None, ForeignKey('user.id'), nullable=True),
 )
 
-metadata.create_all(engine)
+# metadata.create_all(engine)

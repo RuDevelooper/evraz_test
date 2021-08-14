@@ -1,29 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Открытые задачи{% endblock %}
+{% block title %}Мои задачи{% endblock %}
 
 {% block content %}
 
     <div class="row mb-3">
         <div class="col-6">
-            <h1>Открытые задачи</h1>
-        </div>
-        <div class="col-6 d-flex justify-content-end align-items-center">
-            <div class="">
-                <a href="/new_task/" class="btn btn-lg btn-warning">
-                    Добавить задачу
-                </a>
-            </div>
+            <h1>Мои задачи</h1>
         </div>
     </div>
 
     <div class="row">
         {% for ticket in tickets %}
+
             <div class="col-md-6 col-lg-4 p-2">
                 <div class="card">
                     <div class="card-header">
-                        <h6 class="mb-0">Добавлена: <span> {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
-                        </h6>
+                        <h6 class="mb-0">Добавлена: <span> {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</span></h6>
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ ticket.description }}</p>
@@ -31,17 +24,29 @@
 
                     <div class="card-footer bg-white">
                         <div class="row justify-content-end">
+                            <div class="col-auto px-0">
+                                <form action="/my_tasks/" method="post">
+                            <input type="text" class="hidden" value="{{ ticket.id }}" name="ticket" hidden>
+                            <button type="submit" class="btn btn-outline-danger">Отменить</button>
+                        </form>
+                            </div>
                             <div class="col-auto">
-                                <form action="/" method="post">
+                                <form action="/my_tasks/" method="post">
                                     <input type="text" class="hidden" value="{{ ticket.id }}" name="ticket" hidden>
-                                    <button type="submit" class="btn btn-outline-primary">Добавить к своим</button>
+                                    <button type="submit" class="btn btn-outline-success">Завершить</button>
                                 </form>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
+
         {% endfor %}
+
     </div>
+
+
 
 {% endblock %}

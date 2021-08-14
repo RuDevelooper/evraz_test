@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}В работе{% endblock %}
+
+{% block content %}
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <h1>В работе</h1>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+            <div class="">
+                <a href="/new_task/" class="btn btn-lg btn-warning">
+                    Добавить задачу
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for ticket in tickets %}
+
+            <div class="col-md-6 col-lg-6 p-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Добавлена: <span> {{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ ticket.description }}</p>
+                    </div>
+
+                    <div class="card-footer bg-white">
+                        <h6>История:</h6>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="text-muted">Создан</div>
+                            </div>
+                            <div class="col-5">
+                                <div class="text">14.08.2021 16:42</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text">Alexandr.T.</div>
+                            </div>
+                        </div>
+
+{#                        <div class="row justify-content-end">#}
+{#                            <div class="col-auto px-0">#}
+{#                                <form action="/my_tasks/" method="post">#}
+{#                                    <input type="text" class="hidden" value="{{ ticket.id }}" name="ticket" hidden>#}
+{#                                    <button type="submit" class="btn btn-outline-danger">Отменить</button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                            <div class="col-auto">#}
+{#                                <form action="/my_tasks/" method="post">#}
+{#                                    <input type="text" class="hidden" value="{{ ticket.id }}" name="ticket" hidden>#}
+{#                                    <button type="submit" class="btn btn-warning">Завершить</button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </div>#}
+
+
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+
+{% endblock %}
