@@ -81,7 +81,7 @@ def get_archive_ticket_history():
     done_status = select(statuses.c.id).where(
         statuses.c.title == "Завершен"
     ).scalar_subquery()
-    cancell_status = select(statuses.c.id).where(
+    cancel_status = select(statuses.c.id).where(
         statuses.c.title == "Отменен"
     ).scalar_subquery()
 
@@ -90,7 +90,7 @@ def get_archive_ticket_history():
     ).where(
         or_(
             tickets.c.current_status == done_status,
-            tickets.c.current_status == cancell_status)
+            tickets.c.current_status == cancel_status)
     )
 
     tickets_history_list = engine.execute(tickets_history_query).fetchall()
