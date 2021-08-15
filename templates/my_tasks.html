@@ -25,13 +25,13 @@
                     <div class="card-footer bg-white">
                         <div class="row justify-content-end">
                             <div class="col-auto px-0">
-                                <form action="/my_tasks/" method="post">
+                                <form action="/cancel_ticket/" method="post">
                             <input type="text" class="hidden" value="{{ ticket.id }}" name="ticket" hidden>
                             <button type="submit" class="btn btn-outline-danger">Отменить</button>
                         </form>
                             </div>
                             <div class="col-auto">
-                                <form action="/my_tasks/" method="post">
+                                <form action="/finish_task/" method="post">
                                     <input type="text" class="hidden" value="{{ ticket.id }}" name="ticket" hidden>
                                     <button type="submit" class="btn btn-outline-success">Завершить</button>
                                 </form>

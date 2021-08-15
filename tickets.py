@@ -63,18 +63,18 @@ def get_user_tasks(user_id):
     return tickets_dict
 
 
-def add_to_my_tickets(ticket_id, user_id):
+def change_ticket_status(ticket_id, user_id, status: str):
     now = datetime.now()
-    status = 2
+    status_id = select(statuses.c.id).where(statuses.c.title == status).scalar_subquery()
 
     query = tickets.update().values({
         tickets.c.user_id: user_id,
-        tickets.c.current_status: status,
+        tickets.c.current_status: status_id,
         tickets.c.status_updated_at: now
     }).where(tickets.c.id == ticket_id)
 
     insert = tickets_history.insert().values(
-        status=status,
+        status=status_id,
         ticket=ticket_id,
         updated_at=now,
         updated_by=user_id,

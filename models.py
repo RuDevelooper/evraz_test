@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from sqlalchemy import (
@@ -18,8 +19,8 @@ naming_convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"
 }
-
-engine = create_engine('sqlite:///project.db', echo=True)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+engine = create_engine('sqlite:///' + os.path.join(BASE_DIR, 'project.db'), echo=True)
 
 metadata = MetaData(
     naming_convention=naming_convention
