@@ -1,19 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}В работе{% endblock %}
+{% block title %}Архив{% endblock %}
 
 {% block content %}
 
     <div class="row mb-3">
         <div class="col-6">
-            <h1>В работе</h1>
-        </div>
-        <div class="col-6 d-flex justify-content-end align-items-center">
-            <div class="">
-                <a href="/new_ticket/" class="btn btn-lg btn-warning">
-                    Добавить задачу
-                </a>
-            </div>
+            <h1>Архив</h1>
         </div>
     </div>
 
@@ -23,8 +16,12 @@
             <div class="col-md-6 col-lg-6 p-2">
                 <div class="card">
                     <div class="card-header">
-                        <h6 class="mb-0">Исполнитель: <span> {{ users.get(ticket.user_id) }}</span>
-                        </h6>
+                        <h6 class="mb-0
+{% if statuses.get(ticket.current_status) == "Отменен" %}
+                        text-danger
+{% elif statuses.get(ticket.current_status) == "Завершен" %}
+text-success
+{% endif %} ">{{ statuses.get(ticket.current_status) }}</h6>
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ ticket.description }}</p>
@@ -32,7 +29,6 @@
 
                     <div class="card-footer bg-white">
                         <h6>История:</h6>
-
                         <div class="row">
                             <div class="col-3">
                                 <div class="text-muted">Создан</div>
@@ -55,7 +51,6 @@
                             </div>
                         </div>
                         {% endfor %}
-
 
                     </div>
                 </div>

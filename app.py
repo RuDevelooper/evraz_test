@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, make_response, redirect
 
+from lib import get_all_users_and_statuses
 from models import *
 from auth import auth, check_auth
 from statistic import get_statistic_counters
-from tickets import create_new_ticket, get_opened_tasks, get_user_tasks, change_ticket_status
+from tickets import create_new_ticket, get_opened_tickets, get_user_tickets, change_ticket_status, get_tickets_at_work, \
+    get_at_work_ticket_history, get_archive_tickets, get_archive_ticket_history
 
 app = Flask(__name__)
 
@@ -39,7 +41,7 @@ def login():
 @check_auth
 def main(user):
     if request.method == "GET":
-        tickets = get_opened_tasks()
+        tickets = get_opened_tickets()
         return render_template(
             "index.html",
             user=user,
@@ -52,36 +54,53 @@ def main(user):
         return redirect('/')
 
 
-@app.route('/my_tasks/', methods=['GET', 'POST'])
+@app.route('/my_tickets/', methods=['GET', 'POST'])
 @check_auth
-def my_tasks(user):
+def my_tickets(user):
     if request.method == "GET":
-        tickets = get_user_tasks(user['id'])
+        tickets = get_user_tickets(user['id'])
         return render_template(
-            "my_tasks.html",
+            "my_tickets.html",
             user=user,
             tickets=tickets
         )
 
-    if request.method == "POST":
-        ticket = request.form.get('ticket')
-        # add_to_my_tickets(ticket, user['id'])
-        return redirect('/my_tasks/')
 
-
-@app.route('/at_work/', methods=['GET', 'POST'])
+@app.route('/at_work/', methods=['GET'])
 @check_auth
 def at_work(user):
     if request.method == "GET":
-        tickets = get_user_tasks(user['id'])
+        tickets = get_tickets_at_work()
+        history = get_at_work_ticket_history()
+        lib = get_all_users_and_statuses()
         return render_template(
             "at_work.html",
             user=user,
-            tickets=tickets
+            tickets=tickets,
+            history=history,
+            users=lib.get('users'),
+            statuses=lib.get('statuses'),
         )
 
 
-@app.route('/statistic/', methods=['GET', 'POST'])
+@app.route('/archive/', methods=['GET'])
+@check_auth
+def archive(user):
+    if request.method == "GET":
+        tickets = get_archive_tickets()
+        history = get_archive_ticket_history()
+        lib = get_all_users_and_statuses()
+        return render_template(
+            "archive.html",
+            user=user,
+            tickets=tickets,
+            history=history,
+            users=lib.get('users'),
+            statuses=lib.get('statuses'),
+        )
+
+
+@app.route('/statistic/', methods=['GET'])
 @check_auth
 def statistic(user):
     if request.method == "GET":
@@ -92,22 +111,17 @@ def statistic(user):
             counters=counters
         )
 
-    if request.method == "POST":
-        ticket = request.form.get('ticket')
-        # add_to_my_tickets(ticket, user['id'])
-        return redirect('/my_tasks/')
 
-
-@app.route('/new_task/', methods=['GET', 'POST'])
+@app.route('/new_ticket/', methods=['GET', 'POST'])
 @check_auth
-def new_task(user):
+def new_ticket(user):
     if request.method == "GET":
         print(user)
-        return render_template("new_task.html", user=user)
+        return render_template("new_ticket.html", user=user)
 
     if request.method == "POST":
-        task_description = request.form.get('task_description')
-        create_new_ticket(task_description)
+        ticket_description = request.form.get('ticket_description')
+        create_new_ticket(ticket_description)
         return redirect('/')
 
 
@@ -117,16 +131,16 @@ def cancel_ticket(user):
     if request.method == "POST":
         ticket = request.form.get('ticket')
         change_ticket_status(ticket, user['id'], "Отменен")
-        return redirect('/my_tasks/')
+        return redirect('/my_tickets/')
 
 
-@app.route('/finish_task/', methods=['POST', ])
+@app.route('/finish_ticket/', methods=['POST', ])
 @check_auth
-def finish_task(user):
+def finish_ticket(user):
     if request.method == "POST":
         ticket = request.form.get('ticket')
         change_ticket_status(ticket, user['id'], "Завершен")
-        return redirect('/my_tasks/')
+        return redirect('/my_tickets/')
 
 
 if __name__ == '__main__':
