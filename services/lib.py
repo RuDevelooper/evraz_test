@@ -15,8 +15,6 @@ def get_all_users_and_statuses():
     statuses_dict = {}
 
     for (id, login, password, fullname) in users_list:
-        print(id)
-        print(fullname)
         users_dict.update(
             {id: fullname}
         )

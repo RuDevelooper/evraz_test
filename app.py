@@ -124,7 +124,6 @@ def statistic(user):
 @check_auth
 def new_ticket(user):
     if request.method == "GET":
-        print(user)
         return render_template("new_ticket.html", user=user)
 
     if request.method == "POST":
