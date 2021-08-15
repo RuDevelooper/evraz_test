@@ -1,11 +1,19 @@
 from flask import Flask, render_template, request, make_response, redirect
 
-from lib import get_all_users_and_statuses
+from services.lib import get_all_users_and_statuses
 from models import *
-from auth import auth, check_auth
-from statistic import get_statistic_counters
-from tickets import create_new_ticket, get_opened_tickets, get_user_tickets, change_ticket_status, get_tickets_at_work, \
-    get_at_work_ticket_history, get_archive_tickets, get_archive_ticket_history
+from services.auth import auth, check_auth
+from services.statistic import get_statistic_counters
+from services.tickets import (
+    create_new_ticket,
+    get_opened_tickets,
+    get_user_tickets,
+    change_ticket_status,
+    get_tickets_at_work,
+    get_at_work_ticket_history,
+    get_archive_tickets,
+    get_archive_ticket_history
+)
 
 app = Flask(__name__)
 

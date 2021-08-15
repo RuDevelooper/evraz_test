@@ -19,6 +19,7 @@ naming_convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"
 }
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 engine = create_engine('sqlite:///' + os.path.join(BASE_DIR, 'project.db'), echo=True)
 
